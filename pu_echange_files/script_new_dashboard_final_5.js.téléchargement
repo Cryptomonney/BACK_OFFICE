@@ -1,0 +1,1279 @@
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+
+
+
+
+$(document).ready(function () {
+    //controle paygate et moov togo
+    $('#writeadress').hide();
+    var intl = null;
+    //$('#togo').hide();
+    //$('#form').hide();
+    $('#zonecktag').hide();
+    $('#tag_get').hide();
+    //$('#selectadress').hide();
+    $('#confirm').hide();
+    $('#selectconfirm').show();
+    $('#selectconfirm').attr('required', true);
+    //$('#confirm').attr('required', true);
+    //var id= $('#ii').val();
+    // var selfie= $('#ss').val();
+
+    $('#g1').click(function () {
+        $(".give").show();
+        $('.give').removeClass("actives");
+        if ($('.give').hasClass("col-12")) {
+            $('.give').removeClass("col-12");
+            $('.give').addClass("col-6");
+        }
+    });
+    $('#g2').click(function () {
+        $(".get").show();
+        $('.get').removeClass("actives");
+        if ($('.get').hasClass("col-12")) {
+            $('.get').removeClass("col-12");
+            $('.get').addClass("col-6");
+        }
+    });
+
+    $('.give').click(function () {
+        //if($(this).hasClass('actives')){
+        $('.give').removeClass("actives");
+        // } else {
+        $(this).addClass("actives");
+        // }
+        $('#name_give').addClass('g-hidden-sm-down');
+        $('#name_give').hide();
+        $('#myModalgive').modal('hide');
+        $(".get").removeClass('col-12');
+        //$(".get").addClass('col-6');
+        $('.get').removeClass("actives");
+        $(".get").show();
+        //  $('#form').hide();
+
+        if ($(window).width() <= 767) {
+            $(".give:not(.actives)").toggle();
+        }
+
+        if ($(window).width() >= 767) {
+            $(".give:not(.actives)").toggle();
+        }
+        if ($(this).hasClass("col-6")) {
+            $(this).removeClass("col-6");
+            $(this).addClass("col-12");
+        } else if ($(this).hasClass("col-12")) {
+            $(this).removeClass("col-12");
+            $(this).addClass("col-6");
+        }
+        gotop();
+    });
+    $('li.get').click(function () {
+        $('.get').removeClass("actives");
+ 
+        $(this).addClass("actives");
+        $('#name_get').addClass('g-hidden-sm-down');
+        $('#name_get').hide();
+        $('#myModal').modal('hide');
+
+        if ($(window).width() > 767) {
+            $(".get:not(.actives)").toggle();
+        }
+        if ($(window).width() <= 767) {
+            $(".get:not(.actives)").toggle();
+
+        }
+
+        if ($(this).hasClass("col-12")) {
+            $(this).removeClass("col-12");
+            $(this).addClass("col-6");
+        } else if ($(this).hasClass("col-6")) {
+            $(this).removeClass("col-6");
+            $(this).addClass("col-12");
+        }
+
+        $('#form').show();
+        //$('#form_kyc').hide();
+        gotop();
+
+    });
+
+    $('h4#navgive').click(function () {
+        $(".give").show();
+    });
+
+    $('h4#navget').click(function () {
+        $(".get").show();
+    });
+
+    $("#cktag").change(function () {
+        if (this.checked) {
+            $('#tag_get').hide();
+            $('#confirm_tag').attr('required', false);
+        } else {
+            $('#tag_get').show();
+            $('#zonecktag').show();
+            $('#confirm_tag').attr('required', true);
+        }
+    });
+
+    $("#selectcktag").change(function () {
+        if (this.checked) {
+            $('#selectconfirm').show();
+            $('#selectconfirm').attr('name', 'confirm');
+            $("#selectconfirm [data-selecte='selecte']").attr('selected', true);
+            $('#confirm').removeAttr('name');
+            $('#confirm').hide();
+            $('#selectadress').hide();
+            $('#selectconfirm').attr('required', true);
+            $('#confirm').attr('required', false);
+        } else {
+            $("#selectconfirm [data-selecte='selecte']").attr('selected', true);
+            $("#selectconfirm [data-selecte !='selecte']").attr('selected', false);
+            $('#confirm').show();
+            $('#confirm').attr('name', 'confirm');
+            $('#selectconfirm').removeAttr('name');
+            $('#selectconfirm').hide();
+            $('#confirm').attr('required', true);
+            $('#selectconfirm').attr('required', false);
+        }
+    });
+    $("#addWalletbis").click(function () {
+        var url = '/wallet/pu_list/red';
+        $(location).prop('href', url);
+    });
+    $("#addWallet").click(function () {
+        var url = '/wallet/pu_list/red';
+        $(location).prop('href', url);
+    });
+    $("#selectconfirm").change(function () {
+        var selectconfirm = $('#selectconfirm').val();
+
+//        $('#selectcktag').prop('checked', false);
+//        if (selectconfirm == 2) {
+//            var url = '/numero/pu_wallet_client';
+//            $(location).prop('href', url);
+//        }
+        if (selectconfirm == 3) {
+            var url = '/wallet/pu_list';
+            $(location).prop('href', url);
+        }
+        if (selectconfirm == 1) {
+            $("#selectconfirm [data-selecte='selecte']").attr('selected', false);
+            $('#confirm').attr('name', 'confirm');
+            $('#confirm').attr('required', true);
+            $('#confirm').show();
+            $('#selectadress').show();
+            $('#selectconfirm').hide();
+            $('#selectconfirm').removeAttr('name');
+        } else {
+            $('#confirm').removeAttr('name');
+            $('#confirm').hide();
+            $('#selectadress').hide();
+            $('#selectconfirm').show();
+            $('#selectconfirm').attr('name', 'confirm');
+
+        }
+    });
+//    $("li.get").click(function () {
+//        $("#selectconfirm [data-libcompte]").show();
+//        $("#selectconfirm [data-libcompte!='" + search + "']").hide();
+//        $("#selectconfirm [data-libcompte='visible']").show();
+//
+//    });
+
+    $("li.get").click(function () {
+        // $("#selectconfirm [data-libcompte]").show();
+        // $("#selectconfirm [data-libcompte!='" + search + "']").hide();
+        // if ((search.split('#')[0] == 500 || search.split('#')[0] == 530) && search.split('#')[1] == 226) {
+        //     $("#selectconfirm [data-libcompte='530#226']").show();
+        //     $("#selectconfirm [data-libcompte='500#226']").show();
+        // }
+        $("#selectconfirm [data-libcompte='visible']").show();
+    });
+
+
+
+    //pré-enrégistrement de wallet sur dashboard
+
+
+
+
+    $('#myModalWallet').on('show.bs.modal', function (e) {
+        $('#writeadress').tooltip('hide');
+        //console.log(patternvalue)
+
+    });
+    $("#annuler").click(function () {
+        $('#myModalWallet').modal('hide');
+        $('#selectconfirm option[data-selecte="selecte"]').prop('selected', true);
+        $('.errors').remove();
+    });
+    $('#myModalWallet').on('hidden.bs.modal', function (e) {
+        $(this).find("input").val('').end();
+        $(this).find(".iti__flag-container .iti__selected-flag .iti__flag iti__ci").val('');
+        $(this).find(".iti__selected-flag .iti__selected-dial-code").val('');
+        $(this).find(".errors").val('');
+        $('#enregistrer').html('Enrégistrer');
+    });
+
+    $('#enregistrer').click(function (e) {
+        //console.log(typecompte);
+        var type = typecompte == 2 ? "momo" : 'web';
+        var code = $("#get_libWallet").val();
+        var compte_ref = $("#get_compte_ref").val();
+        var pseudo = $('#pseudo').val();
+        var adress = $('#confirm_input').val();
+
+        $("input[name='full_confirmval']~*").remove()
+        $("input[name='confirmval']~*").remove();
+        var confirmval = $('#confirmval').val();
+        let isEmpty = false;
+        $('.errors').remove();
+
+        if (pseudo === '') {
+            if (!isEmpty) {
+                $('#pseudo').parent().append("<span class='errors' style='color:red'>Le pseudo est obligatoire</span>");
+                isEmpty = true;
+            }
+            return false;
+        } else if (pseudo.length > 20) {
+            $('#pseudo').parent().append("<span class='errors' style='color:red'>Votre pseudo ne doit pas dépasser 20 caractères</span>");
+            return false;
+        } else
+        if (adress === '') {
+            if (!isEmpty) {
+                $('#confirm_input').parent().append("<span class='errors' style='color:red'>Le champ 'Adresse' est obligatoire</span>");
+                isEmpty = true;
+            }
+            return false;
+        } else
+        if (confirmval === '') {
+            if (!isEmpty) {
+                if (typecompte === 2) {
+                    $("#confirmval .errors").remove();
+                }
+                $('#confirmval').parent().append("<span class='errors' style='color:red'>Champ obligatoire</span><br/>");
+                isEmpty = true;
+            }
+            return false;
+        }
+
+        if (adress.trim() !== confirmval.trim()) {
+            if (!isEmpty) {
+                if (typecompte === 2) {
+                    if ($('.msg_error_confirmval').get().length == 0) {
+                        $('#confirmval').parent().parent().after("<span class='msg_error_confirmval' style='color:red;margin-left: 120px;'>Numéro non conforme</span>");
+                        return false;
+                    } else if ($('.full_confirmval').val() == $('.full_confirm_input').val()) {
+                        return true;
+                    }
+                    //return true; 
+                } else {
+                    $('#confirmval').parent().append("<span class='errors' style='color:red'>Adresse non conforme</span>");
+                    isEmpty = true;
+                }
+            }
+            return false;
+            $('#confirmval').parent().append("<span class='errors' style='color:red'>Les adresses ne correspondent pas</span>");
+            isEmpty = true;
+            return false;
+        }
+
+        let errorShown = false;
+
+        if (adress.trim() === confirmval.trim()) {
+
+            if (typecompte === 2) {
+
+                if (!errorShown && $('.msg_error_confirmval').get().length !== 0) {
+
+                    $('#confirmval').parent().parent().after("<span class='msg_error_confirmval' style='color:red;margin-left: 120px;'>Numéro non conforme</span>");
+                    $('.msg_error_confirmval').html("");
+                    errorShown = true;
+                    return false;
+
+                }
+
+            }
+
+        }
+
+
+        //if (patternvalue && new RegExp(patternvalue).test(adress) || ) {
+        if (patternvalue) {
+
+            if (typecompte == 1 && !(new RegExp(patternvalue).test(adress.trim()))) {
+                var errorMessage = "Veuillez respecter le format : " + formatAdresse;
+                $('#confirmval').parent().append("<span class='errors' style='color:red'>" + errorMessage + "</span>");
+                return false;
+            }
+
+
+            $('#enregistrer').html('<i class="fa fa-spinner fa-spin"></i> En cours...');
+            var data = {
+                compte: code,
+                compte_ref: compte_ref,
+                pseudo: pseudo,
+                confirm: typecompte === 2 ? $('.full_confirm_input').val() : adress,
+                tag: ""
+            };
+
+
+
+            var formDataModalWallet = new FormData();
+            for (var key in data) {
+                formDataModalWallet.append(key, data[key]);
+            }
+
+            var fullname = $('.full_confirm_input').val();
+            //console.log("full", fullname);
+            $('#enregistrer').prop('disabled', true);
+            fetch('/wallet/pu_client_save/' + type + '/true', {
+                method: 'POST',
+                body: formDataModalWallet
+            })
+                    .then(response => response.text())
+                    .then(text => {
+                        $('#enregistrer').prop('disabled', false);
+                        $("#pseudo").val('');
+                        $("#confirm_input").val('');
+                        $("#confirmval").val('');
+                        //$("#get_libWallet").val('');
+                        //$("#get_compte_ref").val('');
+                        $(".errors").remove();
+                        //console.log(text);
+                        try {
+                            var data = JSON.parse(text);
+
+                            if (data.succes) {
+                                // Effacer les champs de saisie et les erreurs 
+                                window.adresses.push({code: code, compte_ref: compte_ref, pseudo: pseudo, wallet_adresse: typecompte === 2 ? fullname : adress});
+
+                                getAdressesList(compte_ref);
+                                $('#selectconfirm').show();
+                                $('#selectconfirm').attr('name', 'confirm');
+                                $('#selectconfirm').val(typecompte === 2 ? fullname : adress);
+                                //$("#selectconfirm [value='" + adress + "']").attr('selected', true);
+                                $('#confirm').removeAttr('name');
+                                $('#confirm').hide();
+                                $('#writeadress').hide();
+                                $('#myModalWallet').modal('hide');
+
+                            } else { 
+                                $("#erreurModalWallet").val("");
+                                $("#erreurModalWallet").html(data.message);
+                                $("#erreurModalWallet").show();
+                                $('#enregistrer').html('Enrégistrer');
+                                setTimeout(() => {
+                                    $("#erreurModalWallet").hide();
+
+                                }, 5000);
+                            }
+                        } catch (error) {
+                            //console.log(text, error);
+                        }
+                    }).catch(error => {
+                $('#enregistrer').prop('disabled', false);
+                $('#enregistrer').html('Enrégistrer');
+                $("#erreurModalWallet").show();
+                setTimeout(() => {
+                    $("#erreurModalWallet").hide();
+                }, 5000);
+            });
+
+            $('#enregistrer').prop('disabled', false);
+        } else {
+            alert('Veuillez réessayé');
+        }
+        $('#enregistrer').prop('disabled', false);
+    });
+
+//pré-enrégistrement de wallet sur dashboard
+
+});
+
+var search = null;
+var checkMinTRX = 0;
+var idCompteIn;
+function valider() { 
+    //verification adresse du client different adresse de izi avant soumission du formulaire
+    checkMinTRX = $('#quantite_in').val(); 
+    var idCompteIn = $('#give_account').val();
+    var selectconfirm = $('#selectconfirm').val();
+    var confirm = $('#confirm').val();
+    var adressExemple = $('#adressExemple').val();
+    $('#msg').hide();  
+    //alert('je suis adressExemple ' + adressExemple);
+    // alert('adresse client '+ confirm +' adresse izi '+ adressExemple)
+    if (confirm !== adressExemple || selectconfirm !== adressExemple) {
+        // les données sont ok, on peut envoyer le formulaire U18745835  
+         //alert('adresse client '+ confirm +' adresse izi '+ adressExemple)
+//        alert(checkMinTRX);
+//        alert(idCompteIn);
+        if (checkMinTRX < 50 &&  idCompteIn==71) {
+            $('#quantite_in').attr('title', 'Minimum TRX non respecté ' );  
+            $('#quantite_in').css('border', '1px solid #DC3F4D');
+           // $('#msg').css('display','block !important');
+            $('#msg').show();
+            
+            //alert("Pour des raison du moté de prix de TRX le minimum est passe à 40TRX");
+            return false;
+        }
+        return true;
+    } else {
+
+        alert("Saisissez votre adresse de reception personnelle");
+        document.getElementById("confirm").value = '';
+        document.getElementById("confirm").label = '';
+        $('#confirm').focus();
+        return false;
+    }
+}
+
+
+function getAdressesList(compte) {
+    if (compte) {
+        let data = '<option data-libcompte="visible" value data-selecte="selecte" class="g-font-size-13" style="border-radius:none;">Selectionnez votre adresse</option>';
+
+        data += (window.adresses || []).filter((a) => (a.compte_ref === compte || ((compte == '500#226' || compte == '530#226') && (a.compte_ref == "530#226" || a.compte_ref == "500#226")))).map((a) => (
+                    `
+         <option  value="${a.wallet_adresse}" data-libcompte="${compte}">${a.pseudo}: ${a.wallet_adresse}</option>
+     `
+                    )).join("");
+        data += '<option style="border-radius:none; font-size: 14px; font-weight: bold" data-libcompte="visible" value="30" class="g-font-size-13" id="openModalWalletForSave">Ajouter une adresse</option>';
+        document.querySelector("#selectconfirm").innerHTML = data;
+
+        //replace by data tool
+        const selectElement = document.querySelector('#selectconfirm');
+        selectElement.addEventListener('change', function (e) {
+            const lastOptionIndex = selectElement.options.length - 1;
+            if (selectElement.selectedIndex === lastOptionIndex) {
+                $('#myModalWallet').modal('show');
+            }
+        });
+    } else {
+        window.alert("Compte non selectionné");
+    }
+}
+
+var ROUNDEUR = 1000000;
+
+var methodeMarchandG;
+isAdressOk = false;
+var deviseIn, codeCompteIn, tauxOperation, codeCompteOut, devise_out, taux_out, paysIn, paysOut;
+function setFieldIn(_paysIn, logo, label, devise, methodeMarchand, give, codeCompte) {
+    
+    methodeMarchandG = methodeMarchand;
+    deviseIn = devise;
+    codeCompteIn = codeCompte;
+    paysIn = _paysIn;
+    $('#myModalgive').modal('hide');
+    $('#img_give').attr('src', '/themeApp/icons/' + logo + '.png');
+    //$('#img_give').attr('src', '<?php echo BASE_URL_THEME; ?>images/icon-' + logo + '.png');
+    $('#name_give').html(label);
+    $('#wal_give').remove();
+    $('#wizard_with_validation').attr('action', methodeMarchand);
+    $('#give_account').val(give);
+    $('#devise_in_lib').html(devise);
+
+    if (parseFloat($('#get_account').val()) > 0) {
+
+        if (paysIn && paysOut) {
+
+            $.get('/dashboard/pu_tauxOperationDisplayValue/' + paysIn + '/' + deviseIn + '/' + codeCompteIn + '/' + paysOut + '/' + devise_out + '/' + codeCompteOut + '/' + taux_out, function (data, status) {
+
+                if (status === 'success') {
+                    // alert('tauxOperation ===> ' + tauxOperation);                   
+                    tauxOperation = data;
+                    
+                    var minDB = Math.round(minGlobalOut * 10000) / 10000;
+                    var minOutCalculer = minDB;
+                    if (deviseIn == 'TRX') {
+                        minOutCalculer =  parseFloat(Math.round(parseFloat(50) * tauxOperation * ROUNDEUR) / ROUNDEUR);
+
+                    }
+                    
+                    if (codeCompteIn == 905 && deviseIn == 'TRX' && minOutCalculer > minDB) { 
+                        $('#min_in').html(50);
+                        $('#min_out').html(minOutCalculer);
+                    } else { 
+                        $('#min_out').html(minDB);
+                        $('#min_in').html(Math.round((parseFloat(minGlobalOut) / tauxOperation) * ROUNDEUR) / ROUNDEUR);
+                     }
+                     $('#max_in').html(Math.round((parseFloat(maxGlobalOut) / tauxOperation) * ROUNDEUR) / ROUNDEUR);
+                    
+                    
+                    
+                    
+                    
+                    if (parseFloat($('#quantite_out').val()) > 0) {
+                        $('#quantite_in').val(parseFloat(Math.round((parseFloat($('#quantite_out').val()) / tauxOperation) * ROUNDEUR) / ROUNDEUR));
+                        // if($('#quantite_out').attr('light')=='true'){
+                        //     $('#lightning-msg').removeClass('d-none')
+                        //     $('#lightning-msg').html(`Assurez vous que le montant renseigner lors de la génération de l'adresse soit égale à ${parseFloat(Math.round(parseFloat($('#quantite_in').val()) * tauxOperation * ROUNDEUR) / ROUNDEUR)}`)
+                
+                        // }else{
+                        //     $('#lightning-msg').addClass('d-none')
+                        // }
+                    }
+                } else {
+                    alert('une erreur est survenue');
+                    window.location.reload();
+                }
+
+            });
+
+        }
+
+    }
+
+    if (devise_out === devise && devise_out === 'FCFA') {
+        //$('#wizard_with_validation').hide();
+        //$('#validation').hide();
+        $('#exampleModalCenter').modal('show');
+    } else {
+        $('#validation').show();
+        $('#wizard_with_validation').show();
+    }
+}
+
+
+
+//var 
+var intltogo;
+var confirm_input = new IntlTel();
+var confirmval = new IntlTel();
+var intl = null;
+var intl1 = null;
+var patternvalue = null;
+var formatAdresse = null;
+var codeCompteforAdresse = null;
+var typecompte = null;
+var minGlobalOut=0;
+var maxGlobalOut=0;
+function setFieldOut(_paysOut, logo, label, min, max, montant, critique, devise, pattern, maskOut, get, adressExemple, codeCompte, taux, codepays, typecompte_id, codepaysa,optional_tag=0) {
+    // $('#selectadress').show(); 
+    //$('#selectadress').hide();
+    $('#myModal').modal('hide'); 
+    minGlobalOut =min;
+    maxGlobalOut =max;
+    patternvalue = pattern;
+    formatAdresse = adressExemple;
+    codeCompteforAdresse = codepays;
+
+    if(get== 412){
+        $('#quantite_out').attr('light',true) 
+    }else{
+        $('#quantite_out').attr('light',false)
+        $('#lightning-msg').addClass('d-none')
+    }
+
+    $("#selectconfirm [data-selecte='selecte']").attr('selected', true);
+    typecompte = typecompte_id;
+    //console.log(typecompte);
+    search = codeCompte + '#' + codepays;
+    
+    //console.log(codeCompte)
+    //console.log(codepays)
+    //console.log(search)
+
+    getAdressesList(search);
+    codeCompteOut = codeCompte;
+    devise_out = devise;
+    taux_out = taux;
+    paysOut = _paysOut;
+    var id = $('#ii').val();
+    var selfie = $('#ss').val();
+    $('#confirm').removeAttr('pattern');
+    $("#confirm").unmask();
+    var reserve = parseFloat(montant) < parseFloat(critique) ? 0 : parseFloat(montant) / 2;
+    $('#get_account').val(get);
+    $('#img_get').attr('src', '/themeApp/icons/' + logo + '.png');
+    $('#wal_get').remove();
+
+    const imgwallet = $('#img_getwallet');
+    imgwallet.attr('src', '/themeApp/icons/' + logo + '.png');
+
+    if ($('h3.libadress').length) {
+        $('h3.libadress').html("Ajouter votre adresse " + label);
+    } else {
+//        console.log("nexiste pas");
+    }
+
+    $("#get_libWallet").val(codepays + "" + codeCompte); //code
+    $("#get_compte_ref").val(search); //compte_ref
+    $("#get_compte").val(); //pseudo
+
+    // $('#img_get').attr('src', '<?php echo BASE_URL_THEME; ?>images/icon-' + logo + '.png');
+    $('#name_get').html(label);
+    
+    //alert(![4000, 4010].includes(codeCompte))
+    var codeComptes = 401;
+
+    /* if (![4000, 4010].includes(codeComptes)) {
+        console.log("codeCompte est dans le tableau");
+    } else {
+        console.log("codeCompte n'est pas dans le tableau");
+    } */
+
+
+    //!($.inArray(codeCompte, [4000, 4010])) >= 0)
+    //control different de typecompte_id (momo et web); remarque: la condition pm (400,401) est désactivé pour l'instant, remplacé par 4000,4010
+    if ((typecompte == 1 && !([4000, 4010].includes(codeCompte))) || typecompte == 2) {
+        $('#selectconfirm').show();
+        $('#selectconfirm').attr('name', 'confirm');
+        $("#selectconfirm [data-selecte='selecte']").attr('selected', true);
+        $('#confirm').removeAttr('name');
+        $('#confirm').hide();
+        //$('#idtext').html('Saisir mon adresse');
+
+        //console.log($("#selectconfirm [data-libcompte='" + search + "']").length)
+
+        if ($("#selectconfirm [data-libcompte='" + search + "']").length == 0) {
+            $('#selectconfirm').hide();
+            $('#addWallet').hide();
+            $('#selectadresse').hide();  
+            $('#writeadress').show();
+            //$('#validation button').prop('disabled', true);           
+        } else {
+            $('#writeadress').hide();
+            //$('#validation button').prop('disabled', false);
+            $('#selectconfirm').show();
+            $("#selectconfirm [data-selecte='selecte']").prop('selected', true);
+            $('#selectadresse').show();//
+            $('#addWallet').show();
+        }
+        /* Controle pour bf*/
+        // if (((search.split('#')[0] == 500 || search.split('#')[0] == 530) && search.split('#')[1] == 226)) {
+        //     if ($("#selectconfirm [data-libcompte='500#226']").length != 0 || $("#selectconfirm [data-libcompte='530#226']").length != 0) {
+        //         $('#writeadress').hide();
+        //         //$('#validation button').prop('disabled', false);
+        //         $('#selectconfirm').show();
+        //         $('#selectadresse').show();//
+        //         $('#addWallet').show();
+        //     }
+        // }
+        $('#selectconfirm').attr('required', true);
+        $('#confirm').attr('required', false);
+    } else {
+
+        $("#selectconfirm [data-selecte='selecte']").attr('selected', true);
+        $("#selectconfirm [data-selecte !='selecte']").attr('selected', false);
+        $('#confirm').show();
+        $('#confirm').attr('name', 'confirm');
+        $('#selectconfirm').removeAttr('name');
+        $('#selectconfirm').hide();
+        //$('#idtext').html('Choisir mon adresse');
+        $('#writeadress').hide();
+        $('#selectadresse').hide();//
+        $('#addWallet').show();
+        $('#confirm').attr('required', true);
+        $('#selectconfirm').attr('required', false);
+    }
+
+
+    if (parseFloat(max) > 0) {
+        $('#max_out').html(' ' + (Math.round(max * 100) / 100));
+        $('#quantite_out').attr('max', max);
+    }
+    $('#quantite_out').attr('min', min);
+    $('#reserve_out').html(Math.round(reserve * 100) / 100);
+    $('#adress_get').html(label);
+    $('#devise_out_lib').html(devise);
+    if ($.inArray(parseInt(get), [68, 73, 228]) >= 0 || optional_tag==1) {
+        $('#tag_get').show();
+        $('#zonecktag').show();
+        $('#confirm_tag').attr('required', true);
+    } else {
+        $('#tag_get').hide();
+        $('#zonecktag').hide();
+        $('#confirm_tag').attr('required', false);
+    }
+    
+    if (deviseIn === devise && deviseIn === 'FCFA') {
+        //$('#wizard_with_validation').hide();
+        //$('#validation').hide();
+        $('#exampleModalCenter').modal('show');
+    } else {
+        $('#validation').show();
+        $('#wizard_with_validation').show();
+    }
+
+
+    if (parseFloat($('#give_account').val()) > 0) {
+        if (paysIn && paysOut) {
+
+            $.get('/dashboard/pu_tauxOperationDisplayValue/' + paysIn + '/' + deviseIn + '/' + codeCompteIn + '/' + paysOut + '/' + devise_out + '/' + codeCompteOut + '/' + taux_out, function (data, status) {
+
+
+                if (status === 'success') {
+                    tauxOperation = data;
+                    var minDB = Math.round(min * 10000) / 10000;
+                    var minOutCalculer = minDB;
+
+                    if (deviseIn === 'TRX') {
+                        minOutCalculer = parseFloat(Math.round(parseFloat(50) * tauxOperation * ROUNDEUR) / ROUNDEUR);
+                    }
+                    if (codeCompteIn == 905 && deviseIn == 'TRX' && minOutCalculer > minDB) {
+                        $('#min_in').html(50);
+                        $('#min_out').html(minOutCalculer);
+                    } else {
+                        $('#min_out').html(minDB);
+                        $('#min_in').html(Math.round((parseFloat(min) / tauxOperation) * ROUNDEUR) / ROUNDEUR);
+                    }
+                    
+                    $('#max_in').html(Math.round((parseFloat(max) / tauxOperation) * ROUNDEUR) / ROUNDEUR);
+
+                    if (parseFloat($('#quantite_in').val()) > 0) {
+                        $('#quantite_out').val(parseFloat(Math.round(parseFloat($('#quantite_in').val()) * tauxOperation * ROUNDEUR) / ROUNDEUR)); 
+                    }
+                } else {
+                    alert('une erreur est survenue');
+                    window.location.reload();
+                }
+
+            });
+
+        }
+    }
+
+
+
+    if (pattern != 'nd') {
+        $('#confirm').attr('pattern', pattern);
+        $('#confirm').attr('title', 'Votre adresse au format: ' + adressExemple);
+
+
+        $('#confirm_input').attr('pattern', pattern);
+        $('#confirm_input').attr('title', 'Votre adresse au format: ' + adressExemple);
+
+        $('#confirmval').attr('pattern', pattern);
+        $('#confirmval').attr('title', 'Votre adresse au format: ' + adressExemple);
+    }
+
+    if (intl)
+        intl.destroy();
+    if (intl1)
+        intl1.destroy();
+
+    if (maskOut != 'nd') {
+        $.mask.definitions['9'] = '';
+        $.mask.definitions['n'] = '[0-9]';
+        $.mask.definitions['$'] = '[a-km-zA-HJ-NP-Z0-9]';
+        $("#confirm").mask(maskOut);
+
+
+        intl = new IntlTel().config('confirm_input', codepaysa, [codepaysa]);
+        intl1 = new IntlTel().config('confirmval', codepaysa, [codepaysa]);
+    } else {  
+        $("#confirm").unmask();
+
+        intl = null;
+        intl1 = null;
+        $("#confirm_input").val("");
+        $("#confirm_input").css("padding-left", ' 12px');
+        $('#confirm_input').attr("placeholder", 'Ex : ' + adressExemple);    
+        $("#confirm_input").unmask();  
+        $("#confirmval").val("");
+        $("#confirmval").css("padding-left", ' 12px');
+        $('#confirmval').attr("placeholder", 'Ex : ' + adressExemple);  
+        $("#confirmval").unmask();
+    }
+
+
+    $('#quantite_out').val();
+    $('#quantite_in').val();
+
+
+    //controle kyc
+
+    if (id == 1 && selfie == 1) {
+        //alert(' verifié id'+id+'selfie'+selfie);
+        $('#form_kyc').hide();
+        $('#wizard_with_validation').show();
+        //alert('verifié'+$('#ii').val());
+    } else if (String(codeCompteIn).substr(0, 1) == '9' && String(codeCompteOut).substr(0, 1) == '9') {
+        //alert('sens crypto id'+id+'selfie'+selfie);
+        $('#form_kyc').hide();
+        $('#wizard_with_validation').show();
+    } else {
+        //alert('non verifierid'+id+'selfie'+selfie);
+        $('#wizard_with_validation').hide();
+        $('#form_kyc').show();
+
+    }
+}
+
+
+
+function gaucheToDroite() { 
+    var qte_out = parseFloat(Math.round(parseFloat($('#quantite_in').val()) * tauxOperation * ROUNDEUR) / ROUNDEUR);
+    $('#quantite_out').val(qte_out);
+    if($('#quantite_out').attr('light')=='true' && $('#quantite_out').val()>0){
+        $('#lightning-msg').removeClass('d-none')
+        $('#lightning-msg').html(`Assurez vous que le montant renseigner lors de la génération de l'adresse soit égale à  <b style="color:black!important">${parseFloat(qte_out)} BTC ou ${parseFloat((qte_out)*100000000)} SATS</b>`)
+    }else{
+        $('#lightning-msg').addClass('d-none')
+    }
+}
+
+function droiteToGauche() { 
+    var qte_out = parseFloat($('#quantite_out').val());
+
+    $('#quantite_in').val(parseFloat(Math.round((qte_out / tauxOperation) * ROUNDEUR) / ROUNDEUR));
+    if($('#quantite_out').attr('light')=='true' && $('#quantite_out').val()>0){
+        $('#lightning-msg').removeClass('d-none')
+        $('#lightning-msg').html(`Assurez vous que le montant renseigner lors de la génération de l'adresse soit égale à <b style="color:black!important">${parseFloat(qte_out)} BTC ou ${parseFloat((qte_out)*100000000)} SATS</b>`)
+    }else{
+        $('#lightning-msg').addClass('d-none')
+    }
+
+}
+function gotop() {
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+}
+       
+
+function filterWallets(wallets,url,sessionResidence)
+{
+    $('#giveCrypto li').remove();
+    $('#giveElectro li').remove();
+    //ajouter wallet a chaq 
+    var mobile = {}, cryptos = {}, electro = {}, region = []
+
+    wallets.map(function (wl, index) 
+    {
+        if (wl.typecompte_id == 2) {  //Mobile
+
+            if (mobile.hasOwnProperty(wl.codepays2)) {
+                mobile[wl.codepays2].data.push(wl);
+            } else {
+                mobile[wl.codepays2] = { data: [wl], codepays: wl.libcompte.split(' ')[1] }
+            }
+        }
+        else if (wl.typecompte_id == 1) {  //electro
+            if (electro.hasOwnProperty(wl.libcompte.split(' ')[0])) {
+                electro[wl.libcompte.split(' ')[0]].push(wl)
+            } else {
+                electro[wl.libcompte.split(' ')[0]] = [wl]
+            }
+        } else if (wl.typecompte_id == 4) { //crypto
+            if (cryptos.hasOwnProperty(wl.devise.split('.')[0])) {
+                cryptos[wl.devise.split('.')[0]].push(wl)
+            } else {
+                cryptos[wl.devise.split('.')[0]] = [wl];
+            }
+        }
+        //else if (wl.typecompte_id == 2 && wl.codepays2 == (process.env?.USER?.pays ?? 'bj')) region.push(wl)
+        //else if (wl.typecompte_id == 2) mobile.push(wl)
+        
+    });
+    
+    var tabElectro = Object.entries(electro);
+    var arr = Object.entries(cryptos);
+    var giveMobile = Object.entries(mobile);
+    var codePays = '';
+
+    $('#selectGiveMobileList').empty();
+
+    giveMobile.forEach(function(value,index)
+    {
+        var isSelected = value[0] === sessionResidence;
+        var dataAttribute = encodeURIComponent(JSON.stringify(value[1].data));
+        if(value[1].codepays =='CI')
+        {
+            codePays = "Cote d'ivoire";
+            $('#selectGiveMobileList').append('<option value="' + dataAttribute + '" ' + (isSelected ? 'selected' : '') + '> '+codePays+'</option>');
+
+        }else if(value[1].codepays =='CM'){
+            
+            codePays = "Cameroun";
+            $('#selectGiveMobileList').append('<option value="' + dataAttribute + '" ' + (isSelected ? 'selected' : '') + '> '+codePays+'</option>');
+        }
+        else{
+            $('#selectGiveMobileList').append('<option value="' + dataAttribute + '" ' + (isSelected ? 'selected' : '') + '> '+value[1].codepays+'</option>');
+        }
+    });
+    
+    if(sessionResidence !== 'null')
+        {
+            var residenceData = null
+            var data = []
+                
+           // residenceData = Object.entries(mobile[sessionResidence]);
+           
+            //data = residenceData[0][1]
+                
+            if(mobile[sessionResidence] !== undefined && mobile[sessionResidence] !== null )
+            {
+                residenceData = Object.entries(mobile[sessionResidence]);
+                data = residenceData[0][1]
+            }else{
+                
+                const firstKey = Object.keys(mobile)[0];
+                const firstElement = mobile[firstKey];
+                residenceData = firstElement;
+                if(residenceData != null)
+                {
+                    data = residenceData.data 
+                }else{
+                    data = null
+                }
+               
+            }
+            if(data != null)
+            {
+                data.forEach(function(item){
+    
+                    var li = document.createElement('li');
+                    li.classList.add('mr-3', 'give', 'card-mob');
+                    if (parseInt(sessionVolumeJour) > 50000000 && (item.codecompte == '300' || item.idcompte == '192')) {
+                        li.classList.add('inactives');
+                    }
+                    li.id = item.idcompte;
+                    li.setAttribute('onclick', `setFieldIn('${item.codepays}', '${item.codecomptenew}', '${item.libcompte}', '${item.devise}', '${item.methode_marchand}', '${item.idcompte}',' ${item.codecompte}')`);
+        
+                    var div = document.createElement('div');
+                    div.classList.add('img-fluid', 'card-mob-ens');
+        
+                    var img = document.createElement('img');
+                    img.classList.add('img-responsive');
+                    img.width = 90;
+                    img.height = 60;
+                    img.src = `${baseUrl}icons/${item.codecomptenew}.png`;
+        
+                    div.appendChild(img);
+        
+                    li.appendChild(div);
+        
+                    $('#giveMobile').append(li);
+        
+                })
+            }
+    
+        }
+
+     
+    // correction
+    tabElectro.forEach(function (electro, index)
+    {
+        var electroKey = electro[0];
+        var electroValue = electro[1];
+
+        if(electroValue.length > 1)
+        {
+            var elemt = '<div class="mr-3 mt-3 bootstrap-container">'+
+                                '<div class="btn-group">'+
+                                    '<button type="button" style="background-color:#F2F5F5;" class="btn" data-toggle="dropdown" aria-expanded="false">'+
+                                        '<img class="img-responsive" style="width:84px; height:44px;" src="'+url+'iconDash4/'+electroKey+'.png">'+
+                                        '<i class="hs-admin-angle-down" style="font-weight:bold;font-size:10px;color:red;"></i>'+
+                                    '</button>';
+                            
+            elemt += '<div class="dropdown-menu" style="text-align:center; min-width:8px; padding:0px;">';
+
+            electroValue.forEach(function (value){
+                
+                elemt += '<img class="img-responsive give card-mob" width="92" height="65" style="margin-top:0px !important; margin-bottom:2px !important;padding:10px !important;" src="'+url+'icons/'+value.codecomptenew+'.png" onclick="setFieldIn(\'' + value.codepays + '\', \'' + value.codecomptenew + '\',\'' + value.libcompte + '\',\'' + value.devise + '\',\'' + value.methode_marchand + '\',\'' + value.idcompte + '\',\'' + value.codecompte + '\')">';
+                
+            });
+
+            elemt +=  '</div></div>'+
+                        '</div>';
+        }else{
+
+            var elemt = '<div class="mr-3 mt-3 bootstrap-container" style="padding-left:10px; padding-right:12px; background-color:#F2F5F5; padding-bottom:0px;">';
+            elemt +=    '<img class="img-responsive give card-mob"  width="92" height="67" style="margin-top:-10px !important; !important;padding-top:10px !important;" src="'+url+'icons/'+electroValue[0].codecomptenew+'.png" onclick="setFieldIn(\'' + electroValue[0].codepays + '\', \'' + electroValue[0].codecomptenew + '\',\'' + electroValue[0].libcompte + '\',\'' + electroValue[0].devise + '\',\'' + electroValue[0].methode_marchand + '\',\'' + electroValue[0].idcompte + '\',\'' + electroValue[0].codecompte + '\')">';
+            elemt +=  '</div>';
+        }
+        
+        $('#giveElectro').append(elemt);
+    });
+
+    //cryptos ---je donne----
+    arr.forEach(function (crypto, index)
+    {
+        var cryptoKey = crypto[0];
+        var cryptoValue = crypto[1];
+        
+        if(cryptoValue.length > 1)
+        {
+
+           
+            var element = '<div class="mr-3 mt-3 bootstrap-container">'+
+                                '<div class="btn-group">'+
+                                '<button type="button" style="background-color:#F2F5F5;" class="btn" data-toggle="dropdown" aria-expanded="false">'+
+                                    '<img class="img-responsive" style="width:84px; height:44px;" src="'+url+'iconDash4/'+cryptoKey+'.png">'+
+                                    '<i class="hs-admin-angle-down" style="font-weight:bold;font-size:10px; color:red;"></i>'+
+                                '</button>';
+                            
+            element += '<div class="dropdown-menu" style="text-align:center; min-width:8px; padding:0px;">';
+
+            cryptoValue.forEach(function (value){
+                
+                element += '<img class="img-responsive give card-mob" width="92" height="65" style="margin-top:0px !important; margin-bottom:2px !important;padding:10px !important;" src="'+url+'icons/'+value.codecomptenew+'.png" onclick="setFieldIn(\'' + value.codepays + '\', \'' + value.codecomptenew + '\',\'' + value.libcompte + '\',\'' + value.devise + '\',\'' + value.methode_marchand + '\',\'' + value.idcompte + '\',\'' + value.codecompte + '\')">';
+                
+            });
+
+            element +=  '</div></div>'+
+                        '</div>';
+        }else{
+
+            var element = '<div class="mr-3 mt-3 bootstrap-container" style="padding-left:10px; padding-right:12px; background-color:#F2F5F5; padding-bottom:0px;">';
+            element += '<img class="img-responsive give card-mob" width="92" height="67" style="margin-top:-10px !important; !important;padding-top:10px !important; " src="'+url+'icons/'+cryptoValue[0].codecomptenew+'.png" onclick="setFieldIn(\'' + cryptoValue[0].codepays + '\', \'' + cryptoValue[0].codecomptenew + '\',\'' + cryptoValue[0].libcompte + '\',\'' + cryptoValue[0].devise + '\',\'' + cryptoValue[0].methode_marchand + '\',\'' + cryptoValue[0].idcompte + '\',\'' + cryptoValue[0].codecompte + '\')">';
+            element +=  '</div>';
+        }
+        $('#giveCrypto').append(element);
+
+    });
+}
+ 
+
+function filterGetWallets(getWallets,url,sessionResidence)
+{
+    $('#getMobile li').remove();
+    $('#getElectro li').remove();
+    $('#getCrypto li').remove();
+    
+    var mobile = {}, cryptos = {}, electro = {}, region = []
+
+    getWallets.map(function (wl, index) 
+    {
+        if (wl.typecompte_id == 2) {
+
+        if (mobile.hasOwnProperty(wl.codepays2)) {
+            mobile[wl.codepays2].data.push(wl);
+        } else {
+            mobile[wl.codepays2] = { data: [wl], codepays: wl.libcompte.split(' ')[1] }
+        }
+        }
+        else if (wl.typecompte_id == 1) {
+        if (electro.hasOwnProperty(wl.libcompte.split(' ')[0])) {
+            electro[wl.libcompte.split(' ')[0]].push(wl)
+        } else {
+            electro[wl.libcompte.split(' ')[0]] = [wl]
+        }
+        } else if (wl.typecompte_id == 4) {
+        if (cryptos.hasOwnProperty(wl.devise.split('.')[0])) {
+            cryptos[wl.devise.split('.')[0]].push(wl);
+        } else {
+            cryptos[wl.devise.split('.')[0]] = [wl];
+        }
+        }
+        else if (wl.typecompte_id == 2 && wl.codepays2 == (sessionResidence ? sessionResidence:'bj')) region.push(wl)
+        else if (wl.typecompte_id == 2) mobile.push(wl);
+        
+    });
+    
+    //console.log(mobile.bj);
+
+    var getMobile = Object.entries(mobile);
+    var getElectro = Object.entries(electro);
+    var getCrypto = Object.entries(cryptos);
+    var getCodePays = '';
+
+    $('#selectMobileList').empty();
+
+    getMobile.forEach(function(value,index)
+    {
+        var isSelected = value[0] === sessionResidence;
+        var dataAttribute = encodeURIComponent(JSON.stringify(value[1].data));
+
+        if(value[1].codepays =='CI')
+        {
+            getCodePays = "Côte d'Ivoire";
+            $('#selectMobileList').append('<option value="' + dataAttribute + '" ' + (isSelected ? 'selected' : '') + '> '+getCodePays+'</option>');
+
+        }else if(value[1].codepays =='CM'){
+            
+            getCodePays = "Cameroun";
+            $('#selectMobileList').append('<option value="' + dataAttribute + '" ' + (isSelected ? 'selected' : '') + '> '+getCodePays+'</option>');
+        }
+        else{
+            $('#selectMobileList').append('<option value="' + dataAttribute + '" ' + (isSelected ? 'selected' : '') + '> '+value[1].codepays+'</option>');
+        }
+    });
+    
+    if(sessionResidence !== 'null')
+    {
+        var residenceData = null 
+      
+        //residenceData = Object.entries(mobile[sessionResidence]);
+       // data = residenceData[0][1]
+            
+        if(mobile[sessionResidence] !== undefined && mobile[sessionResidence] !== null )
+        {
+           residenceData = Object.entries(mobile[sessionResidence]);
+           data = residenceData[0][1]
+        }else{
+           
+           const firstKey = Object.keys(mobile)[0];
+           const firstElement = mobile[firstKey];
+           residenceData = firstElement;
+           data = residenceData.data
+        }
+
+        data.forEach(function(item){
+
+            var li = document.createElement('li');
+            li.classList.add('mr-3', 'get', 'card-mob');
+            if (parseInt(sessionVolumeJour) > 50000000 && (item.codecompte == '300' || item.idcompte == '192')) {
+                li.classList.add('inactives');
+            }
+            li.id = item.idcompte; 
+            li.setAttribute('onclick', `setFieldOut('${item.codepays}', '${item.codecomptenew}', '${item.libcompte}', ${item.min}, ${item.max}, ${item.montant}, ${item.soldecritique}, '${item.devise}','${item.pattern.replace(/\\/g, '\\\\')}','${item.masque_addr_reception}', ${item.idcompte}, '${item.exemple_adresse}', ${item.codecompte}, ${item.taux}, ${item.codepays}, ${item.typecompte_id}, '${item.codepays2}', ${item.optional_tag})`);
+
+            var div = document.createElement('div');
+            div.classList.add('img-fluid', 'card-mob-ens');
+
+            var img = document.createElement('img');
+            img.classList.add('img-responsive');
+            img.width = 90;
+            img.height = 60;
+            img.src = `${baseUrl}icons/${item.codecomptenew}.png`;
+
+            div.appendChild(img);
+
+            li.appendChild(div);
+
+            $('#getMobile').append(li);
+
+        })
+
+    }
+    
+    //electronique ---je recois----
+
+    getElectro.forEach(function (electro, index)
+    {
+        var electroKey = electro[0];
+        //console.log(electroKey);
+
+        
+        var electroValue = electro[1];
+        //console.log(electroValue);
+        //console.log(electroValue.length);
+        if(electroValue.length > 1)
+        {
+            var elemt = '<div class="mr-3 mt-3">'+
+                                '<div class="btn-group dropdown">'+
+                                '<button type="button" style="background-color:#F2F5F5;" class="btn" data-toggle="dropdown" aria-expanded="false">'+
+                                    '<img class="img-responsive" style="width:84px; height:44px;" src="'+url+'iconDash4/'+electroKey+'.png">'+
+                                    '<i class="hs-admin-angle-down" style="font-weight:bold;font-size:10px;color:#008080;"></i>'+
+                                '</button>';
+            elemt += '<div class="dropdown-menu" style="text-align:center; min-width:8px; padding:0px;">';
+
+            electroValue.forEach(function (value){
+                elemt += '<img class="img-responsive get card-mob" width="92" height="65" style="margin-top:0px !important; margin-bottom:2px !important;padding:10px !important;" src="'+url+'icons/'+value.codecomptenew+'.png" onclick="setFieldOut(\'' + value.codepays + '\', \'' + value.codecomptenew + '\',\'' + value.libcompte + '\',\'' + value.min + '\',\'' + value.max + '\',\'' + value.montant + '\',\'' + value.soldecritique + '\',\'' + value.devise + '\',\'' + value.pattern.replace(/\\/g, '\\\\') + '\',\'' + value.masque_addr_reception + '\',\'' + value.idcompte + '\',\'' + value.exemple_adresse + '\',\'' + value.codecompte + '\',\'' + value.taux + '\',\'' + value.codepays + '\',\'' + value.typecompte_id + '\',\'' + value.codepays2 + '\')">';
+            });
+
+            elemt +=  '</div></div>'+
+                        '</div>';
+        }else{
+            var elemt = '<div class="mr-3 mt-3" style="padding-left:10px; padding-right:12px; background-color:#F2F5F5; padding-bottom:0px;">';
+            elemt +=    '<img class="img-responsive get card-mob"  width="92" height="67" style="margin-top:-10px !important; !important;padding-top:10px !important;" src="'+url+'icons/'+electroValue[0].codecomptenew+'.png" onclick="setFieldOut(\'' + electroValue[0].codepays + '\', \'' + electroValue[0].codecomptenew + '\',\'' + electroValue[0].libcompte + '\',\'' + electroValue[0].min + '\',\'' + electroValue[0].max + '\',\'' + electroValue[0].montant + '\',\'' + electroValue[0].soldecritique + '\',\'' + electroValue[0].devise + '\',\'' + electroValue[0].pattern.replace(/\\/g, '\\\\') + '\',\'' + electroValue[0].masque_addr_reception + '\',\'' + electroValue[0].idcompte + '\',\'' + electroValue[0].exemple_adresse + '\',\'' + electroValue[0].codecompte + '\',\'' + electroValue[0].taux + '\',\'' + electroValue[0].codepays + '\',\'' + electroValue[0].typecompte_id + '\',\'' + electroValue[0].codepays2 + '\')">';
+            elemt +=  '</div>';
+        }
+        $('#getElectro').append(elemt);
+    });
+    
+    //cryptos ---je recois----
+    getCrypto.forEach(function (crypto, index)
+    {
+        var cryptoKey = crypto[0];
+        var cryptoValue = crypto[1];
+
+        if(cryptoValue.length > 1)
+        {
+            var element = '<div class="mr-3 mt-3">'+
+                                '<div class="btn-group dropdown">'+
+                                    '<button type="button" style="background-color:#F2F5F5;" class="btn" data-toggle="dropdown" onchange="" aria-expanded="false">'+
+                                        '<img class="img-responsive" style="width:84px; height:44px;" src="'+url+'iconDash4/'+cryptoKey+'.png">'+
+                                        '<i class="hs-admin-angle-down" style="font-weight:bold;font-size:10px; color:#008080;"></i>'+
+                                    '</button>';
+            element += '<div class="dropdown-menu" style="text-align:center; min-width:8px; padding:0px;">';
+
+            cryptoValue.forEach(function (value,index){
+                
+                element += '<img class="img-fluid get card-mob" id="'+ value.idcompte +'" width="92" height="65" style="margin-top:0px !important; margin-bottom:2px !important;padding:10px !important;" src="'+url+'icons/'+value.codecomptenew+'.png" onclick="setFieldOut(\'' + value.codepays + '\', \'' + value.codecomptenew + '\',\'' + value.libcompte + '\',\'' + value.min + '\',\'' + value.max + '\',\'' + value.montant + '\',\'' + value.soldecritique + '\',\'' + value.devise + '\',\'' + value.pattern.replace(/\\/g, '\\\\') + '\',\'' + value.masque_addr_reception + '\',\'' + value.idcompte + '\',\'' + value.exemple_adresse + '\',\'' + value.codecompte + '\',\'' + value.taux + '\',\'' + value.codepays+ '\',\'' + value.typecompte_id + '\',\'' + value.codepays2 + '\',' + value.optional_tag + ')">';
+                
+            });
+
+            element +=  '</div></div>'+
+                            '</div>';
+        }else{
+            var element = '<div class="mr-3 mt-3" style="padding-left:10px; padding-right:12px; background-color:#F2F5F5;">';
+            element += '<img class="img-fluid get card-mob" id="'+ cryptoValue[0].idcompte +'" width="92" height="67" style="margin-top:-10px !important; !important;padding-top:10px !important;" src="'+url+'icons/'+cryptoValue[0].codecomptenew+'.png" onclick="setFieldOut(\'' + cryptoValue[0].codepays + '\', \'' + cryptoValue[0].codecomptenew + '\',\'' + cryptoValue[0].libcompte + '\',\'' + cryptoValue[0].min + '\',\'' + cryptoValue[0].max + '\',\'' + cryptoValue[0].montant + '\',\'' + cryptoValue[0].soldecritique + '\',\'' + cryptoValue[0].devise + '\',\'' + cryptoValue[0].pattern.replace(/\\/g, '\\\\') + '\',\'' + cryptoValue[0].masque_addr_reception + '\',\'' + cryptoValue[0].idcompte + '\',\'' + cryptoValue[0].exemple_adresse + '\',\'' + cryptoValue[0].codecompte + '\',\'' + cryptoValue[0].taux + '\',\'' + cryptoValue[0].codepays+ '\',\'' + cryptoValue[0].typecompte_id + '\',\'' + cryptoValue[0].codepays2 + '\',' + cryptoValue[0].optional_tag + ')">';
+            element +=  '</div>';
+
+        }
+
+        $('#getCrypto').append(element);
+
+    });
+
+}
+
+function afficheMobile(value,type)
+{
+    var typeId;
+
+    if(type ==='get')
+    {
+        typeId = '#getMobile'
+    }else if(type === 'give'){
+        typeId = '#giveMobile'
+    }
+    $(typeId).empty();
+    
+    var dataAttribute = decodeURIComponent(value);
+    var mobileList = JSON.parse(dataAttribute);
+
+    mobileList.forEach(function(item){
+
+        var li = document.createElement('li');
+        li.classList.add('mr-3', type, 'card-mob');
+        if (parseInt(sessionVolumeJour) > 50000000 && (item.codecompte == '300' || item.idcompte == '192')) {
+            li.classList.add('inactives');
+        }
+        li.id = item.idcompte;
+        if(type === 'get')
+        {
+            li.setAttribute('onclick', `setFieldOut('${item.codepays}', '${item.codecomptenew}', '${item.libcompte}', '${item.min}', '${item.max}', '${item.montant}', '${item.soldecritique}', '${item.devise}','${item.pattern.replace(/\\/g, '\\\\')}','${item.masque_addr_reception}', '${item.idcompte}', '${item.exemple_adresse}', '${item.codecompte}', '${item.taux}', '${item.codepays}', '${item.typecompte_id}', '${item.codepays2}')`);
+        
+        }else if(type === 'give'){
+            li.setAttribute('onclick', `setFieldIn('${item.codepays}', '${item.codecomptenew}', '${item.libcompte}', '${item.devise}', '${item.methode_marchand}', '${item.idcompte}', '${item.codecompte}')`);
+        }
+        
+        var div = document.createElement('div');
+        div.classList.add('img-fluid', 'card-mob-ens');
+
+        var img = document.createElement('img');
+        img.classList.add('img-responsive');
+        img.width = 90;
+        img.height = 60;
+        img.src = `${baseUrl}icons/${item.codecomptenew}.png`;
+
+        div.appendChild(img);
+        li.appendChild(div);
+
+        $(typeId).append(li);
+
+    })
+    
+}
+       
+
+
+
+
+
+
+
+
+   
